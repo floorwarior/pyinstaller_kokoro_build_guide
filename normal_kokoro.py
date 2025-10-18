@@ -4,7 +4,7 @@ from kokoro import KPipeline
 import soundfile as sf
 import torch
 
-pipeline = KPipeline(lang_code='a') # <= make sure lang_code matches voice, reference above.
+pipeline = KPipeline(lang_code='a')
 
 
 text = '''

@@ -1,4 +1,3 @@
-from abc import ABC, abstractmethod
 import os
 import sys
 import numpy as np
@@ -54,9 +53,6 @@ class KokoroReader():
       
             self.sf = sf
             self.sd = sd
-            # things i need:
-            # model by path
-            # models folder hexgrad 82 >
             self.models_folder = kwargs.get("models_folder")
             self.base_path = kwargs.get("base_path")
             self._model = kwargs.get("model") # .pth relative path to the folder

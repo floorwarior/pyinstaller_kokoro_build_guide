@@ -1,14 +1,14 @@
 # Kokoro can be a bit tricky when it comes to pyinstaller
-it included dinamic downloads which run in a subprocess, the problem?
-it grabs sys.executable which is your_apps.exe , this in turn will create an endless call loop
-and you package will never be download
+it includes dinnamic downloads which run in a subprocess, the problem?
+it grabs sys.executable which is your_apps.exe, this in turn will create an endless call loop
+and you package will never be download.
 ## Steps to make it work:
 1. open the normal_kokoro.py file, set the voice you want, run the normal_kokoro file **once**
 2. once it runs, navigate here ( or similar) c:/Users/yourusername/.cache/huggingface/hub/models--hexgrad--Kokoro-82M/snapshots/somerandomstring/
 open it, there is going to be:
 - config.json | copy this into the kokoromodels folder
 - kokoro-v1_0.pth | and this
-- voices folder | copy the desired voice from this folder into the kokoromodels folder 
+- /voices folder | copy the desired voice from this folder into the kokoromodels folder 
 3. Lib modifications:
 navigate here first:
 .venv/Lib/site-packages/misaki/en/
@@ -61,8 +61,12 @@ find the G2P class , modify it like so:
     ...
 
     ```
+    find this folder: .venv/Lib/site-packages/en_core_web_sm/en_core_web_sm-3.8.0
+    copy en_core_web_sm to the root of the project.
+    i searched around in the code a bit, as far as i can tell there should be no other dinamic downloads
+
     if all of this is done run the kokororeader file, if it works ( which it should ), build the project with
     
     ```pyinstaller kokororeader.spec```
 
-    the spec file pulls data and folders which are imperative for this to work
+    the spec file pulls data / folders which are imperative for this to work
