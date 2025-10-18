@@ -41,7 +41,7 @@ class KokoroReader():
     - model: str or path
     - voice: str or path
     - config: str or path
-    - gp2_model_folder : str or path
+    - g2p_model_folder : str or path
     before running this code, you will have to make some modifications: see README.md
     """
 
@@ -58,7 +58,7 @@ class KokoroReader():
             self._model = kwargs.get("model") # .pth relative path to the folder
             self._voice = kwargs.get("voice") # .pt relative path to the folder
             self._config = kwargs.get("config") # config.json relative path to the folder
-            self._gp2_model_folder = kwargs.get("gp2_model_folder") 
+            self._gp2_model_folder = kwargs.get("g2p_model_folder") 
             self.pipeline = KPipeline(
                 gp2_model_path=os.path.join(self.base_path,self._gp2_model_folder),
                 lang_code=kwargs.get("lang_code"),
@@ -115,7 +115,7 @@ if __name__ == "__main__":
         voice="af_heart.pt", # notice that this is a filename
         model = "kokoro-v1_0.pth",
         config = "config.json",
-        gp2_model_folder = "en_core_web_sm/en_core_web_sm-3.8.0" # <- copy this folder to . from .venv/Lib/site-packages/en_core_web_sm NOTE: this might be different for you, but it should be the same concept
+        g2p_model_folder = "en_core_web_sm/en_core_web_sm-3.8.0" # <- copy this folder to . from .venv/Lib/site-packages/en_core_web_sm NOTE: this might be different for you, but it should be the same concept
         )
     while True:
         text = input("text:")

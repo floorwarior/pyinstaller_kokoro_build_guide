@@ -46,7 +46,7 @@ find the G2P class , modify it like so:
         device: Optional[str] = None
     ):
     # . . . 
-    self.gp2_model_path = gp2_model_path # <- wherever G2P is called pass this value to GP2 as model_path
+    self.g2p_model_path = g2p_model_path # <- wherever G2P is called pass this value to GP2 as model_path
     then:
 
     ...
@@ -57,7 +57,7 @@ find the G2P class , modify it like so:
             logger.warning("EspeakFallback not Enabled: OOD words will be skipped")
             logger.warning({str(e)})
             fallback = None
-        self.g2p = en.G2P(trf=trf,model_path = self.gp2_model_path, british=lang_code=='b', fallback=fallback, unk='')
+        self.g2p = en.G2P(trf=trf,model_path = self.g2p_model_path, british=lang_code=='b', fallback=fallback, unk='')
     ...
 
     ```
