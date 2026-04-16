@@ -3,8 +3,9 @@ it includes dinnamic downloads which run in a subprocess, the problem?
 it grabs sys.executable which is your_apps.exe, this in turn will create an endless call loop
 and you package will never be download.
 ## Steps to make it work:
-1. open the normal_kokoro.py file, set the voice you want, run the normal_kokoro file **once**
-2. once it runs, navigate here ( or similar) c:/Users/yourusername/.cache/huggingface/hub/models--hexgrad--Kokoro-82M/snapshots/somerandomstring/
+1. make a folder called kokoromodels folder at the root of your project 
+2. open the normal_kokoro.py file, set the voice you want, run the normal_kokoro file **once**
+3. once it runs, navigate here ( or similar) c:/Users/yourusername/.cache/huggingface/hub/models--hexgrad--Kokoro-82M/snapshots/somerandomstring/
 open it, there is going to be:
 - config.json | copy this into the kokoromodels folder
 - kokoro-v1_0.pth | and this
@@ -63,10 +64,40 @@ find the G2P class , modify it like so:
     ```
     find this folder: .venv/Lib/site-packages/en_core_web_sm/en_core_web_sm-3.8.0
     copy en_core_web_sm to the root of the project.
-    i searched around in the code a bit, as far as i can tell there should be no other dinamic downloads
+    i searched around in the code a bit, as far as i can tell there should be no other dynamic downloads
 
     if all of this is done run the kokororeader file, if it works ( which it should ), build the project with
     
     ```pyinstaller kokororeader.spec```
 
     the spec file pulls data / folders which are imperative for this to work
+  
+    if you are going to make a noconsole application you will have to change how kokoro handles logs .venv/Lib/site-packages/kokoro/__init__.py right now it should look like this:
+  ```
+    __version__ = '0.9.4'
+
+    from loguru import logger
+    import sys
+    
+    # Remove default handler
+    logger.remove()
+    
+    # Add custom handler with clean format including module and line number
+    logger.add(
+        "kokorologs.log", # <- changed from sys.stderr aka terminal
+        format="<green>{time:HH:mm:ss}</green> | <cyan>{module:>16}:{line}</cyan> | <level>{level: >8}</level> | <level>{message}</level>",
+        colorize=True,
+        level="INFO" # "DEBUG" to enable logger.debug("message") and up prints 
+                     # "ERROR" to enable only logger.error("message") prints
+                     # etc
+    )
+    
+    # Disable before release or as needed
+    logger.disable("kokoro")
+    
+    from .model import KModel
+    from .pipeline import KPipeline
+  ```
+
+  
+  
